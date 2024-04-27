@@ -1,5 +1,6 @@
 // rcli csv -i input.csv -o output.csv --hearer -d ','
 
+use core::str;
 use std::{fmt, path::Path, str::FromStr};
 
 use clap::{command, Parser};
@@ -12,8 +13,10 @@ pub struct Opts {
 }
 #[derive(Debug, Parser)]
 pub enum SubCommand {
-    #[command(name = "csv", about = "show CSV, or convert CSV to other formats.")]
+    #[command(name = "csv", about = "Show CSV, or convert CSV to other formats")]
     Csv(CsvOpts),
+    #[command(name = "genpass", about = "Generate a random password")]
+    GenPass(GenPassOpts),
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -77,4 +80,22 @@ impl FromStr for OutputFormat {
             v => anyhow::bail!("Unsupported format: {}", v),
         }
     }
+}
+
+#[derive(Debug, Parser)]
+pub struct GenPassOpts {
+    #[arg(short, long, default_value_t = 16)]
+    pub length: u8,
+
+    #[arg(long, default_value_t = true)]
+    pub upper_case: bool,
+
+    #[arg(long, default_value_t = true)]
+    pub lower_case: bool,
+
+    #[arg(long, default_value_t = true)]
+    pub number: bool,
+
+    #[arg(long, default_value_t = true)]
+    pub symbol: bool,
 }
