@@ -1,7 +1,10 @@
 mod cli;
 mod process;
+mod utils;
 
 pub use cli::{
     Base64DecodeOpts, Base64EncodeOpts, Base64SubCommand, GenPassOpts, Opts, SubCommand,
+    TextSignFormat, TextSubCommand,
 };
-pub use process::{process_csv, process_decode, process_encode, process_genpass};
+pub use process::*;
+pub use utils::*;
